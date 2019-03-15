@@ -1,9 +1,9 @@
 const ChainUtil = require('../chain-util');
 const {INITIAL_BALANCE} = require('../config');
 
-class Wallet {
+class Account {
     constructor(){
-      this.balance = INITIAL_BALANCE;
+      this.coins = INITIAL_BALANCE;
       this.keyPair = ChainUtil.genKeyPair();
       this.publicKey = this.keyPair.getPublic().encode('hex');
     }
@@ -11,6 +11,8 @@ class Wallet {
     toString(){
       return `MinerAccount -
        publicKey: ${this.publicKey.toString()}
-       balance  : ${this.balance}`
+       balance  : ${this.coins}`
     }
 }
+
+module.exports = Account;
