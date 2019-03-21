@@ -22,8 +22,8 @@ class Account {
         this.email = email;
         this.password = password;
         this.coins = INITIAL_BALANCE;
-      this.keyPair = ChainUtil.genKeyPair();
-      this.publicKey = this.keyPair.getPublic().encode('hex');
+        this.keyPair = ChainUtil.genKeyPair();
+        this.publicKey = this.keyPair.getPublic().encode('hex');
         return true;
         }
         catch{

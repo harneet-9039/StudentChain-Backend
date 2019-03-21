@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Student Chain</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="C:\Users\USER\Desktop\mini project\CSS\stylesheet.css">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+	<img src="Images\logo.png" width="200" >&nbsp;&nbsp;
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">&nbsp;&nbsp;
+        <li class="active"><a href="#"><h4>Home</h4></a></li>&nbsp;&nbsp;
+        <li><a href="about.html"><h4>About</h4></a></li>&nbsp;&nbsp;
+        <li><a href="contact.html"><h4>Contact</h4> </a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"> You are logged in as - </a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+	  <h2><b><u>Courses</u></b></h2>	
+      <p><a href="#"><b>Computer Network</b></a></p>
+      <p><a href="#"><b>Shell Programming</b></a></p>
+      <p><a href="#"><b>Programming Lab</b></a></p>
+      <div class="well">
+        <a href="Documents\acadcal_2018_19.pdf">Academic Calender</a>
+          </div>
+    </div>
+    <div class="col-sm-8 text-left"> 
+      <h1>Upload Your Assignment</h1>
+      <hr>
+      <p>
+        <form method="post" enctype="multipart/form-data" class="bg-light">
+			  
+            <div class="form-group">
+            <label>Name: </label>
+            <input type="text" name="name" class="form-control" id="name" autocomplete="off" placeholder="name">
+    <span id="name" class="text-danger font-weight-bold"></span>
+  </div>	
+        
+             <div class="form-group">
+            <label>Registration Number: </label>
+            <input type="text" name="regno" class="form-control" id="reg_no" autocomplete="off" placeholder="registration number">
+          <span id="regno" class="text-danger font-weight-bold"></span>
+        </div>		
+        
+                 <div class="form-group">
+            <label>Upload File: </label><br>
+            <input type="file" name="filename"><br>
+            <input type="submit" value="upload">
+            <span id="uploadfile" class="text-danger font-weight-bold"></span>
+        </div>	
+      </p>
+    </div>
+    <div class="col-sm-2 sidenav">
+      <div class="well">
+        <p>Unchecked assignments</p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p><a href="#" style="color:white;"></a></p><br/>
+  <p>MNNIT Allahabad</p>
+  <p>This is a β version under development.</p>
+</footer>
+
+</body>
+</html>
