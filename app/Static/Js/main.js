@@ -8,10 +8,10 @@
   
   
     function joinnetwork(){
-      socket.emit('join-network');
+      socket.emit('add-user','harneet');
     };
   
     socket.on('useradded', function (data) {
-      alert(data.username);
+      alert(data.username+'joined with'+data.members);
       //alert("Game Created! ID is: "+ JSON.stringify(data));
     });

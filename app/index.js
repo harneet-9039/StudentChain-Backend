@@ -62,13 +62,54 @@ app.use(bodyparser.json());
      balance: 1000
     });
   });*/
+
+  var numUsers = 0;
+
   io.on('connection', function (socket) {
-  socket.on('join-network', function (){
+    var addedUser = false;
+
+
+    socket.on('add-user', function (username) {
+      //if (addedUser) return;
+      console.log('hello');
+      // we store the username in the socket session for this client
+      socket.username = username;
+      ++numUsers;
+      addedUser = true;
+      console.log(socket.username);
+     /* socket.emit('login', {
+        numUsers: numUsers
+      });*/
+      // echo globally (all clients) that a person has connected
+
+      io.emit('useradded', {
+        username: socket.username,
+        members: numUsers
+      });
+
+
+     /* socket.broadcast.emit('user joined', {
+        username: socket.username,
+        numUsers: numUsers
+      });*/
+    });
+
+    socket.on('user joined', function (data) {
+      log(data.username + ' joined with' + data.numUsers + 'more' );
+    
+      //addParticipantsMessage(data);
+    });
+  
+
+ /* socket.on('join-network', function (){
     console.log(socket.username + " wants to join the network");
     io.emit('useradded', {
       username: socket.username
     });
-  });
+  });*/
+
+
+  
 });
 
 
