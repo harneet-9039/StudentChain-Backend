@@ -18,17 +18,13 @@ bottom: 0;
 
 
 .footer {
-background-color: white;
+background-color: darkgrey;
 padding: 10px;
 text-align: center;
-color: white;
 position: absolute;
 bottom: 0;
   
 }
-
-
-
 @media screen and (max-width: 767px) {
   .sidenav {
     height: auto;
