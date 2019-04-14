@@ -8,7 +8,7 @@
   
   
     function joinnetwork(){
-      socket.emit('add-user','harneet');
+      socket.emit('add-user','harneetfdgdfgdf');
     };
   
     socket.on('useradded', function (data) {
