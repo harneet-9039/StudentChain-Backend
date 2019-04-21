@@ -1,11 +1,10 @@
 function validation() {
    var user =  document.getElementById('user').value;
-   var password =  document.getElementById('pass').value;
-   var confirm_password =  document.getElementById('conpass').value;
+   var regno =  document.getElementById('regno').value;
    var email =  document.getElementById('email').value;
-   var first_name =  document.getElementById('firstname').value;
-   var last_name =  document.getElementById('lastname').value;
-   var mobile_number =  document.getElementById('mobileNumber').value;
+   var contact =  document.getElementById('contact').value;
+   var branch =  document.getElementById('branch').value;
+   var year =  document.getElementById('year').value;
    
    if (user == "") {
       document.getElementById('username').innerHTML  = "Required Field!";
@@ -19,9 +18,7 @@ function validation() {
       document.getElementById('username').innerHTML  = "Must contain character";
       return false; 
    }
-
-
-   if (password == "") {
+   /*if (password == "") {
       document.getElementById('password').innerHTML  = "Required Field!";
        return false;
    }
@@ -37,7 +34,15 @@ function validation() {
    }
    if(password!=confirm_password) {
       document.getElementById('confpass').innerHTML = "Passwords do not match";
-  }
+  } */
+  if (regno == "") {
+   document.getElementById('registration number').innerHTML  = "Required Field!";
+    return false;
+}
+if((regno.length <= 2) || (regno.length > 10)) {
+   document.getElementById('registration number').innerHTML  = "Length must be between 2 to 10";
+    return false; 
+}  
 
    if (email == "") {
       document.getElementById('Email').innerHTML  = "Required Field!";
@@ -51,34 +56,32 @@ function validation() {
       document.getElementById('Email').innerHTML  = "Invalid email";
       return false;
    }
-
-   if (first_name == "") {
-      document.getElementById('Firstname').innerHTML  = "Required Field!";
+   if (contact == "") {
+      document.getElementById('Contact').innerHTML  = "Required Field!";
        return false;
    }
-   if((first_name.length <= 2) || (first_name.length > 10)) {
-      document.getElementById('Firstname').innerHTML  = "Length must be between 2 to 10";
-       return false; 
-   }
-
-   if (last_name == "") {
-      document.getElementById('Lastname').innerHTML  = "Required Field!";
-       return false;
-   }
-   if((last_name.length <= 2) || (last_name.length > 10)) {
-      document.getElementById('Lastname').innerHTML  = "Length must be between 2 to 10";
-       return false; 
-   }
-   if (mobile_number == "") {
-      document.getElementById('mobnumber').innerHTML  = "Required Field!";
-       return false;
-   }
-   if(isNaN(mobile_number)) {
-      document.getElementById('mobnumber').innerHTML  = "Only Numbers allowed";
+   if(isNaN(contact)) {
+      document.getElementById('contact').innerHTML  = "Only Numbers allowed";
       return false;
    }
-   if(mobile_number.length !=10) {
-      document.getElementById('mobnumber').innerHTML  = "10 digit number is allowed ";
+   if(contact.length !=10) {
+      document.getElementById('Contact').innerHTML  = "10 digit number is allowed ";
+      return false;
+   }
+   if (branch == "") {
+      document.getElementById('Branch').innerHTML  = "Required Field!";
+       return false;
+   } 
+   if (year == "") {
+      document.getElementById('Year').innerHTML  = "Required Field!";
+       return false;
+   }
+   if(isNaN(year)) {
+      document.getElementById('Year').innerHTML  = "Only Numbers allowed";
+      return false;
+   }
+   if(year.length !=4) {
+      document.getElementById('Year').innerHTML  = "4 digit number is allowed ";
       return false;
    }
 }
