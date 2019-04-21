@@ -39,9 +39,8 @@
   <div class="row content">
     <div class="col-sm-2 sidenav">
 	  <h2><b><u>Courses</u></b></h2>	
-      <p><a href="#"><b>Computer Network</b></a></p>
-      <p><a href="#"><b>Shell Programming</b></a></p>
-      <p><a href="#"><b>Programming Lab</b></a></p>
+    <h2><b><u>Peer Count</u></b></h2>	
+    <span id="count">0</span>
       <div class="well">
         <a href="Documents\acadcal_2018_19.pdf">Academic Calender</a>
           </div>
@@ -49,10 +48,10 @@
     <div class="col-sm-8 text-left"> 
       <h1>Welcome</h1>
       <hr>
-      <form action="#" onsubmit="return validation()" class="bg-light">
+      <form class="bg-light">
 			  
 				<div class="form-group">
-				<label>User Name:</label>
+				<label>Full Name:</label>
 				<input type="text" name="user" class="form-control" id="user" autocomplete="off" placeholder="user name">
         <span id="username" class="text-danger font-weight-bold"></span>
       </div>	
@@ -73,17 +72,17 @@
 							<span id="Contact" class="text-danger font-weight-bold"></span>
 						</div>		
 						<div class="form-group">
-								<label>Branch:</label>
+								<label>Course:</label>
 								<input type="text" name="Branch" class="form-control" id="branch" autocomplete="off" placeholder="Branch">
 								<span id="Branch" class="text-danger font-weight-bold"></span>
 							</div>		
 					 <div class="form-group">
-				<label>Year: </label>
+				<label>Year of Study (1/2/3/4): </label>
 				<input type="text" name="year" class="form-control" id="year" autocomplete="off" placeholder="year">
 				<span id="Year" class="text-danger font-weight-bold"></span>
 			</div>		
 			
-			<input type="submit" name="submit" value="submit" class="btn btn-success" autocomplete="off">
+			<button class="btn btn-success" id="registerme">Submit</button>
 			
 			
       </form>
@@ -128,6 +127,8 @@
   
 </nav>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://localhost:3001/Js/main.js"></script>
 
 </body>
 </html>

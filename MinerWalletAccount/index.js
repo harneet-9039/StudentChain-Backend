@@ -11,7 +11,7 @@ class Wallet {
     }
 
    
-    AddUserAccount(regno)
+    AddMinerAccount(regno)
     {
         try{
         this.regno = regno;
@@ -24,12 +24,27 @@ class Wallet {
             return false;
         }
     }
-    toString(){
-      return `MinerAccount -
-      regno: ${this.regno.toString()}
-       publicKey: ${this.publicKey.toString()}
-       balance  : ${this.coins.toString()}`
+
+    
+    AddClientAccount(regno)
+    {
+        try{
+        this.regno = regno;
+        this.keyPair = ChainUtil.genKeyPair();
+        this.publicKey = this.keyPair.getPublic().encode('hex');
+        return true;
+        }
+        catch{
+            return false;
+        }
     }
+    toString(){
+      return `"regno":"${this.regno.toString()},","publicKey":"${this.publicKey.toString()}","balance"  :"${this.coins.toString()}"`
+    }
+
+    sign(AssignmentFileDataHash){
+        return this.keyPair.sign(AssignmentFileDataHash);
+      }
 }
 
 module.exports = Wallet;
