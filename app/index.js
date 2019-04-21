@@ -2,12 +2,14 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const Account = require('../MinerWalletAccount/account');
 var app = express();
+
 const path = require('path');
+const Blockchain = require('../Chain')
 var fs = require('fs');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3001;
-var loopLimit = 0;
+var Authorize = require('./Authorize');
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -15,102 +17,78 @@ server.listen(port, function () {
 });
 
 
-app.use(express.static(path.join(__dirname,'./Static')));
+
+
+
+
+
+app.use(bodyparser.json());
+//app.use(express.static(path.join(__dirname,'./Static')));
 app.use('/Js',express.static(path.join(__dirname , './Static/Js')));
 app.use('/CSS',express.static(path.join(__dirname , './Static/CSS')));
 app.use('/Images',express.static(path.join(__dirname , './Static/Images')));
 app.use('/Documents',express.static(path.join(__dirname + './Static/Documents')));
 
-
+const bc = new Blockchain();
 
 //const account = new Account();
 
-app.use(bodyparser.json());
 
-
-/*app.post('/api/create-account',(req,res)=>{
-    const regno = req.body.regno;
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
-
-   if(account.AddUserAccount(regno, name, email, password))
-   {
-    res.status(200).send({
-        success: 'true',
-        message: 'created successfully'
-      });
-   }
-
-   else{
-    res.status(500).send({
-        success: 'false',
-        message: 'Internal Server Error'
-      });
-   }
-
-    
-
-});*/
-
-/*app.get('/api/user-account-info', (req, res) => {
-    const address = account.publicKey;
-  
-    res.json({
-      address,
-     // balance: account.calculateBalance({ chain: blockchain.chain, address })
-     balance: 1000
-    });
-  });*/
-
-  var numUsers = 0;
-
-  io.on('connection', function (socket) {
-    var addedUser = false;
-
-
-    socket.on('add-user', function (username) {
-      //if (addedUser) return;
-      console.log('hello');
-      // we store the username in the socket session for this client
-      socket.username = username;
-      ++numUsers;
-      addedUser = true;
-      console.log(socket.username);
-     /* socket.emit('login', {
-        numUsers: numUsers
-      });*/
-      // echo globally (all clients) that a person has connected
-
-      io.emit('useradded', {
-        username: socket.username,
-        members: numUsers
-      });
-
-
-     /* socket.broadcast.emit('user joined', {
-        username: socket.username,
-        numUsers: numUsers
-      });*/
-    });
-
-    socket.on('user joined', function (data) {
-      log(data.username + ' joined with' + data.numUsers + 'more' );
-    
-      //addParticipantsMessage(data);
-    });
-  
-
- /* socket.on('join-network', function (){
-    console.log(socket.username + " wants to join the network");
-    io.emit('useradded', {
-      username: socket.username
-    });
-  });*/
-
-
-  
+app.get('/',(req, res)=>{
+  res.sendFile(path.join(__dirname,'./Static/index.html'))
 });
 
+app.get('/login',(req, res)=>{
+  res.sendFile(path.join(__dirname,'./Static/login.html'))
+});
 
-//app.listen(HTTP_PORT,()=>console.log(`listening on port ${HTTP_PORT}`));
+app.get('/register',(req, res)=>{
+  res.sendFile(path.join(__dirname,'./Static/signup.html'))
+});
+
+app.get('/blocks',(req,res)=>{
+res.json(bc.chain);
+});
+
+app.post('/Registerme',(req,res)=>{
+var t = Authorize.Register(req.body.name, req.body.regno, req.body.email, req.body.contact, 
+  req.body.branch, req.body.year);
+  if(t=='fals')
+  res.sendStatus(409);
+  else{
+  res.sendStatus(200);
+
+  }
+});
+  io.sockets.on('connection', function (client) {
+
+    
+    console.log('A new connection is made',client.id);
+    console.log(io.engine.clientsCount);
+    //io.emit('Blockchain',bc.chain);
+    io.emit('UserCount',io.engine.clientsCount);
+
+
+    client.on('disconnect',()=>{
+      io.emit('UserCount',io.engine.clientsCount);
+    });
+
+    app.post('/mine',(req,res)=>{
+      const block = bc.addBlock(req.body.data);
+      console.log(`new block added: ${block.toString()}`);
+      io.emit('Blockchain',bc.chain);
+      //res.redirect('/blocks');
+    });
+  });  
+  
+
+
+
+
+
+
+
+
+
+
+  

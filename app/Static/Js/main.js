@@ -1,17 +1,20 @@
+var socket = io.connect('http://localhost:3001');
 
-  var socket = io();
-  var $joinNetwork = $('.joinNetwork'); 
-  $joinNetwork.click(function () {
-      joinnetwork();
-  
-    })
-  
-  
-    function joinnetwork(){
-      socket.emit('add-user','harneetfdgdfgdf');
-    };
-  
-    socket.on('useradded', function (data) {
-      alert(data.username+'joined with'+data.members);
-      //alert("Game Created! ID is: "+ JSON.stringify(data));
+socket.on('Blockchain', (data)=>{
+console.log(data);
+});
+
+socket.on('UserCount',(data)=>{
+$('#count').text(data);
+});
+
+$(".Emit").click(function(){
+   
+    $.post("http://localhost:3001/mine",
+    { 
+    data:"hello world"
+    },
+    function(response,status){ // Required Callback Function
+        alert("emit success");
+    });
     });
