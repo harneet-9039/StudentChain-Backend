@@ -67,15 +67,3 @@ socket.on('Blockchain', (data)=>{
     });
     
 
-
-/*$(".Emit").click(function(){
-   
-    
-    $.post("http://localhost:3001/Registerme",
-    { 
-    
-    },
-    function(response,status){ // Required Callback Function
-        alert("emit success");
-    });
-    });*/
