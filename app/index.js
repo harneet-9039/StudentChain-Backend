@@ -2,7 +2,7 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const Account = require('../MinerWalletAccount');
 var app = express();
-
+var sql = require('mssql');
 const path = require('path');
 const Blockchain = require('../Chain')
 var fs = require('fs');
@@ -19,6 +19,13 @@ server.listen(port, function () {
 });
 
 
+
+var config = {
+  user: 'studentchain',
+  password: 'harneet@9039',
+  server: 'den1.mssql7.gear.host', 
+  database: 'studentchain' 
+};
 
 
 
@@ -53,31 +60,62 @@ res.json(bc.chain);
 });
 
 app.post('/Registerme',(req,res)=>{
-Authorize.Register(req.body.name, req.body.regno, req.body.email, req.body.contact, 
-  req.body.branch, req.body.year,(data)=>{
-    if(data=='fals')
-    res.sendStatus(409);
-    else{
-    res.sendStatus(200);
-      wallet.AddUserAccount(req.body.regno);
-      console.log(wallet.toString());
-    }
+
+  sql.connect(config, function(conn) {
+    var request = new sql.Request(conn);
+    request.input('Name', sql.VarChar(255), req.body.name);
+    request.input('RegNo', sql.VarChar(50), req.body.regno);
+    request.input('Email', sql.VarChar(255), req.body.email);
+    request.input('Contact', sql.VarChar(255), req.body.contact);
+    request.input('branch', sql.VarChar(50), req.body.branch);
+    request.input('year', sql.Int, req.body.year);
+    request.execute('InsertUser').then(function(err, recordsets, returnValue, affected) {
+      var p = JSON.stringify(err.recordset)
+      console.log(p.substring(6,10));
+      sql.close();
+
+      if(p.substring(6,10)=='true'){
+        io.sockets.on('connection', function (client) {
+
+    
+          console.log('A new connection is made',client.id);
+          console.log(io.engine.clientsCount);
+          //io.emit('Blockchain',bc.chain);
+          io.emit('UserCount',io.engine.clientsCount);
+      
+          
+      
+          client.on('disconnect',()=>{
+            io.emit('UserCount',io.engine.clientsCount);
+          });
+        });
+        
+        wallet.AddUserAccount(req.body.regno);
+        console.log(wallet.toString());
+        res.sendStatus(200);
+      }
+      else{
+        res.sendStatus(409);
+      }
+
+      
+     
+      
+      
+    }).catch(function(err) {
+      console.log(err);
+      sql.close();
+    });
   });
  
+    
+   
+  
 });
-  io.sockets.on('connection', function (client) {
+
 
     
-    console.log('A new connection is made',client.id);
-    console.log(io.engine.clientsCount);
-    //io.emit('Blockchain',bc.chain);
-    io.emit('UserCount',io.engine.clientsCount);
-
-    
-
-    client.on('disconnect',()=>{
-      io.emit('UserCount',io.engine.clientsCount);
-    });
+ 
 
     app.post('/mine',(req,res)=>{
       const block = bc.addBlock(req.body.data);
