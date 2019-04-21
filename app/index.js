@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyparser = require('body-parser');
-const Account = require('../MinerWalletAccount/account');
+const Account = require('../MinerWalletAccount');
 var app = express();
 
 const path = require('path');
@@ -10,6 +10,8 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3001;
 var Authorize = require('./Authorize');
+
+const Wallet = require('../MinerWalletAccount');
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -30,7 +32,7 @@ app.use('/Images',express.static(path.join(__dirname , './Static/Images')));
 app.use('/Documents',express.static(path.join(__dirname + './Static/Documents')));
 
 const bc = new Blockchain();
-
+const wallet = new Wallet();
 //const account = new Account();
 
 
@@ -51,14 +53,17 @@ res.json(bc.chain);
 });
 
 app.post('/Registerme',(req,res)=>{
-var t = Authorize.Register(req.body.name, req.body.regno, req.body.email, req.body.contact, 
-  req.body.branch, req.body.year);
-  if(t=='fals')
-  res.sendStatus(409);
-  else{
-  res.sendStatus(200);
-
-  }
+Authorize.Register(req.body.name, req.body.regno, req.body.email, req.body.contact, 
+  req.body.branch, req.body.year,(data)=>{
+    if(data=='fals')
+    res.sendStatus(409);
+    else{
+    res.sendStatus(200);
+      wallet.AddUserAccount(req.body.regno);
+      console.log(wallet.toString());
+    }
+  });
+ 
 });
   io.sockets.on('connection', function (client) {
 
@@ -68,6 +73,7 @@ var t = Authorize.Register(req.body.name, req.body.regno, req.body.email, req.bo
     //io.emit('Blockchain',bc.chain);
     io.emit('UserCount',io.engine.clientsCount);
 
+    
 
     client.on('disconnect',()=>{
       io.emit('UserCount',io.engine.clientsCount);

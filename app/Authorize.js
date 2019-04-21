@@ -28,9 +28,10 @@ class Authorize{
             console.dir(err.recordset);
             var p = JSON.stringify(err.recordset)
             console.log(p.substring(6,10));
+            sql.close();
             return p;
             
-            sql.close();
+            
           }).catch(function(err) {
             console.log(err);
             sql.close();
